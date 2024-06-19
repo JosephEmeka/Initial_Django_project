@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+ <h1>Welcome to django project</h1>
+{% if name %}
+    <h3>hello, {{ name }}</h3>
+{% else %}
+    <h3>welcome anonymous user </h3>
+{% endif %}
+</body>
+</html>
