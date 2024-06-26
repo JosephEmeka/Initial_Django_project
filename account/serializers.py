@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import Account
 
 
+class CreateAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'pin', 'account_type']
+
+
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
