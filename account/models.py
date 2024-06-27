@@ -14,7 +14,7 @@ class Account(models.Model):
         default = generate_account_number,
         unique = True,
         primary_key = True)
-    balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.0)
+    balance = models.DecimalField(max_digits = 15, decimal_places = 2, default = 0.0)
 
     ACCOUNT_TYPE = [
         ('S', 'SAVINGS'),
@@ -34,15 +34,19 @@ class Transaction(models.Model):
         ('TRA', 'TRANSFER')
     ]
 
-    account = models.ForeignKey(Account, on_delete = models.CASCADE)
+    account = models.ForeignKey(Account, on_delete = models.CASCADE, related_name = 'transactions')
     Transaction_Type = models.CharField(max_length = 3, choices = TRANSACTION_TYPES, default = 'CRE')
     transaction_time = models.DateTimeField(auto_now_add = True)
-    date = models.DateField()
-    amount = models.DecimalField(max_digits = 6, decimal_places = 2)
-    description = models.TextField()
+    date = models.DateField(auto_now = True)
+    amount = models.DecimalField(max_digits = 15, decimal_places = 2)
+    description = models.TextField(blank = True, null = True)
     TRANSACTION_STATUS = [
         ('S', 'SUCCESSFUL'),
         ('F', 'FAIL'),
         ('P', 'PENDING')
     ]
     transaction_status = models.CharField(max_length = 1, choices = TRANSACTION_STATUS, default = 's')
+
+    def __str__(self):
+        return f"{self.id} {self.account} {self.amount} {self.transaction_time} {self.Transaction_Type}"
+
