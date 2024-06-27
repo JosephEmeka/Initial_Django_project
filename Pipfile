@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 djangorestframework = "*"
+psycopg2-binary = "*"
+mysqlclient = "*"
 
 [dev-packages]
 

@@ -1,11 +1,15 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from .utility import generate_account_number
 from .validators import validate_pin
+# from user.models import User
+from django.conf import settings
 
 
 # Create your models here.
 class Account(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.PROTECT)
     first_name = models.CharField(max_length = 255)
     last_name = models.CharField(max_length = 255)
     pin = models.CharField(max_length = 4, validators = [validate_pin])
@@ -49,4 +53,3 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.id} {self.account} {self.amount} {self.transaction_time} {self.Transaction_Type}"
-
