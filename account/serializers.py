@@ -5,7 +5,7 @@ from .models import Account, Transaction
 class CreateAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'pin', 'account_type']
+        fields = ['user', 'account_number', 'pin', 'account_type']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -28,3 +28,21 @@ class AccountSerializer(serializers.ModelSerializer):
     # last_name = serializers.CharField(max_length = 255)
     # balance = serializers.DecimalField(max_digits = 13, decimal_places = 2)
     # account_type = serializers.CharField(max_length = 13)
+
+
+class DepositWithdrawSerializer(serializers.Serializer):
+    account_number = serializers.CharField(max_length = 10)
+    amount = serializers.DecimalField(max_digits = 20, decimal_places = 2)
+
+
+class WithdrawSerializer(serializers.Serializer):
+    account_number = serializers.CharField(max_length = 10)
+    pin = serializers.CharField(max_length = 4)
+    amount = serializers.DecimalField(max_digits = 20, decimal_places = 2)
+
+
+class TransferSerializer(serializers.Serializer):
+    sender_account_number = serializers.CharField(max_length = 10)
+    receiver_account_number = serializers.CharField(max_length = 10)
+    pin = serializers.CharField(max_length = 4)
+    amount = serializers.DecimalField(max_digits = 20, decimal_places = 2)

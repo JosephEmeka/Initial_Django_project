@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
     'demo',
     'account',
     'user',
@@ -82,22 +83,27 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # pipenv install mysqlclient
 
 DATABASES = {
+
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'account_db',
-    #     'USER': 'postgres',
-    #     'PASSWORD': password,
-    #     'HOST': 'localhost',
-    #     'PORT': 5432
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR/'db.sqlite3',
+    # }
+    # 'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': 'account_db',
+    #         'USER': 'postgres',
+    #         'PASSWORD': password,
+    #         'HOST': 'localhost',
+    #         'PORT': 5432
     # }
 
     'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'account_db',
-            'USER': 'root',
-            'PASSWORD': password,
-            'HOST': 'localhost',
-        }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'account_db',
+        'USER': 'root',
+        'PASSWORD': password,
+        'HOST': 'localhost',
+    }
 
 }
 
@@ -139,4 +145,37 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 AUTH_USER_MODEL = 'user.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ]
+}
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days = 1, minutes = 5),
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'user.serializers.UserCreateSerializer'
+    }
+}
+
+ADMIN_URL = 'accountAdmin'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 2525
+DEFAULT_FROM_EMAIL = 'info@jagudabank.com'
+
+
+LOGIN_REDIRECT_URL = 'jwt-create'
