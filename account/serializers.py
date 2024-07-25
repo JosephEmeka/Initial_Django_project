@@ -42,7 +42,7 @@ class WithdrawSerializer(serializers.Serializer):
 
 
 class TransferSerializer(serializers.Serializer):
-    sender_account_number = serializers.CharField(max_length = 10)
+    # sender_account_number = serializers.CharField(max_length = 10)
     receiver_account_number = serializers.CharField(max_length = 10)
     pin = serializers.CharField(max_length = 4)
     amount = serializers.DecimalField(max_digits = 20, decimal_places = 2)

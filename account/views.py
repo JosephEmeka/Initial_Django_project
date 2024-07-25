@@ -10,7 +10,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import Account, Transaction
 from .serializers import AccountSerializer, CreateAccountSerializer, DepositWithdrawSerializer, WithdrawSerializer, \
@@ -154,7 +154,7 @@ class CreateAccount(CreateAPIView):
 
 
 class deposit(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     @staticmethod
     def post(request):
@@ -247,10 +247,12 @@ class TransferViewSet(ModelViewSet):
             return Response(data = {"message": "Transaction Failed"}, status = status.HTTP_400_BAD_REQUEST)
         Transaction.objects.create(
             account = sender_account_from,
-            amount = amount,
-            transaction_type = 'TRANSFER'
+            amount = '- ' + str(amount)
         )
-
+        Transaction.objects.create(
+            account = receiver_account_to,
+            amount = '+ ' + str(amount)
+        )
         transaction_details['receiver_account'] = receiver_account
         transaction_details['amount'] = amount
         transaction_details['transaction_type'] = 'TRANSFER'

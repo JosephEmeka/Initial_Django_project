@@ -37,18 +37,18 @@ class Account(models.Model):
 
 
 class Transaction(models.Model):
-    TRANSACTION_TYPES = [
-        ('Deb', 'DEBIT'),
-        ('Cre', 'CREDIT'),
-        ('TRA', 'TRANSFER')
-    ]
+    # TRANSACTION_TYPES = [
+    #     ('Deb', 'DEBIT'),
+    #     ('Cre', 'CREDIT'),
+    #     ('TRA', 'TRANSFER')
+    # ]
 
     account = models.ForeignKey(Account, on_delete = models.CASCADE, related_name = 'transactions')
-    Transaction_Type = models.CharField(max_length = 3, choices = TRANSACTION_TYPES, default = 'CRE')
+    Transaction_Type = models.CharField(max_length = 3, default = 'CRE')
     transaction_time = models.DateTimeField(auto_now_add = True)
     date = models.DateField(auto_now = True)
-    amount = models.DecimalField(max_digits = 15, decimal_places = 2)
-    description = models.TextField(blank = True, null = True)
+    amount = models.CharField(max_length = 25)
+    description = models.TextField(max_length = 225, blank = True, default = "description not provided")
     TRANSACTION_STATUS = [
         ('S', 'SUCCESSFUL'),
         ('F', 'FAIL'),
